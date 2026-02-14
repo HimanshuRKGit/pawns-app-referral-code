@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earn With Pawns.app – Get $3 Free Bonus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple-dark: #2a0a6e;
+      --purple-main: #4b1fbd;
+      --purple-mid: #5c28d4;
+      --purple-light: #7c3aed;
+      --purple-glow: #9f5bff;
+      --yellow: #e8ff00;
+      --yellow-hover: #d4ea00;
+      --white: #ffffff;
+      --white-80: rgba(255,255,255,0.85);
+      --white-50: rgba(255,255,255,0.5);
+      --white-15: rgba(255,255,255,0.12);
+      --card-bg: rgba(255,255,255,0.07);
+      --card-border: rgba(255,255,255,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #1a0550 0%, #2d0d7a 40%, #3b13a0 70%, #1f0660 100%);
+      min-height: 100vh;
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* FLOATING BLOBS */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob-1 { width: 500px; height: 500px; background: rgba(124, 58, 237, 0.25); top: -100px; right: -100px; }
+    .blob-2 { width: 400px; height: 400px; background: rgba(232, 255, 0, 0.06); bottom: 200px; left: -100px; }
+    .blob-3 { width: 300px; height: 300px; background: rgba(91, 33, 182, 0.3); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: rgba(26, 5, 80, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo span { color: var(--yellow); }
+    .nav-cta {
+      background: var(--yellow);
+      color: #1a0550;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 10px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(232,255,0,0.4); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 40px;
+      text-align: center;
+    }
+    @media(min-width: 768px) {
+      .hero { grid-template-columns: 1fr 1fr; text-align: left; padding: 80px 40px 60px; align-items: center; }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,255,0,0.12);
+      border: 1px solid rgba(232,255,0,0.3);
+      color: var(--yellow);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before { content: '🎁'; }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+    .hero h1 em { color: var(--yellow); font-style: normal; }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--white-80);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    /* CTA CARDS */
+    .cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    @media(min-width: 768px) { .cta-stack { margin: 0; } }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--yellow);
+      color: #1a0550;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 18px 32px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 32px rgba(232,255,0,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(232,255,0,0.45); background: var(--yellow-hover); }
+    .btn-primary svg { width: 20px; height: 20px; }
+
+    /* REFERRAL CODE BOX */
+    .ref-box {
+      background: var(--card-bg);
+      border: 2px dashed rgba(232,255,0,0.45);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .ref-box-left { display: flex; align-items: center; gap: 10px; }
+    .ref-box-left span:first-child { font-size: 1.3rem; }
+    .ref-box-text small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--white-50);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+    .ref-box-text strong { font-size: 1rem; color: var(--white); font-weight: 700; }
+    .ref-box-text strong em { color: var(--yellow); font-style: normal; }
+
+    .copy-btn {
+      background: var(--yellow);
+      color: #1a0550;
+      border: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--yellow-hover); transform: scale(1.04); }
+    .copy-btn.copied { background: #00e57c; color: #fff; }
+
+    /* REFERRAL CODE HERO CARD */
+    .ref-hero-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 36px 28px;
+      backdrop-filter: blur(20px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .ref-hero-card::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(232,255,0,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .ref-code-display {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 800;
+      color: var(--yellow);
+      letter-spacing: 0.05em;
+      margin: 16px 0;
+      text-shadow: 0 0 40px rgba(232,255,0,0.4);
+    }
+    .ref-hero-card p { color: var(--white-80); font-size: 0.95rem; margin-bottom: 20px; }
+    .ref-hero-card small { display: block; color: var(--white-50); font-size: 0.78rem; margin-top: 12px; }
+    .bonus-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #00e57c, #00c469);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    /* DIVIDER */
+    .section { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+    @media(min-width: 768px) { .section { padding: 80px 40px; } }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--white-80); font-size: 1rem; line-height: 1.7; max-width: 560px; }
+    .section-sub.centered { margin: 0 auto; text-align: center; }
+
+    /* HOW IT WORKS */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 48px;
+    }
+    @media(min-width: 640px) { .steps-grid { grid-template-columns: 1fr 1fr; } }
+    @media(min-width: 900px) { .steps-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 48px rgba(0,0,0,0.3); }
+    .step-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--yellow), var(--purple-glow));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .step-card:hover::after { opacity: 1; }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--yellow), #c8e000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #1a0550;
+      margin-bottom: 18px;
+    }
+    .step-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(232,255,0,0.1);
+      border: 1px solid rgba(232,255,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+    }
+    .step-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .step-card p { font-size: 0.9rem; color: var(--white-80); line-height: 1.65; }
+    .step-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--yellow);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    /* VIDEO SECTION */
+    .video-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-top: 48px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 64px rgba(0,0,0,0.4);
+    }
+    .video-wrap iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block;
+      border: none;
+    }
+
+    /* BONUS SECTION */
+    .bonus-card {
+      background: linear-gradient(135deg, rgba(232,255,0,0.12), rgba(232,255,0,0.04));
+      border: 2px solid rgba(232,255,0,0.3);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .bonus-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center top, rgba(232,255,0,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .bonus-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1;
+      margin: 16px 0;
+      text-shadow: 0 0 60px rgba(232,255,0,0.4);
+    }
+    .bonus-card h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; margin-bottom: 12px; }
+    .bonus-card p { color: var(--white-80); font-size: 1rem; max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+
+    /* PASSIVE INCOME */
+    .passive-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 48px;
+    }
+    @media(min-width: 768px) { .passive-grid { grid-template-columns: 1fr 1fr; } }
+
+    .passive-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 28px;
+    }
+    .passive-card .icon { font-size: 2rem; margin-bottom: 16px; }
+    .passive-card h3 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; }
+    .passive-card p { color: var(--white-80); font-size: 0.9rem; line-height: 1.7; }
+    .passive-card .stat { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--yellow); margin: 12px 0 6px; }
+
+    /* STICKY MOBILE CTA */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(26, 5, 80, 0.97);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--card-border);
+      padding: 14px 20px 20px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    @media(max-width: 640px) { .sticky-cta { display: flex; } }
+    .sticky-cta .ref-code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sticky-cta .code-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(232,255,0,0.3);
+      border-radius: 10px;
+      padding: 8px 14px;
+      flex: 1;
+    }
+    .sticky-cta .code-pill span:first-child { font-size: 0.72rem; color: var(--white-50); text-transform: uppercase; letter-spacing: 0.06em; }
+    .sticky-cta .code-pill strong { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--yellow); letter-spacing: 0.04em; }
+    .sticky-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--yellow);
+      color: #1a0550;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    /* REVIEWS */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-top: 48px;
+    }
+    @media(min-width: 580px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+    @media(min-width: 900px) { .reviews-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .review-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px 22px;
+      transition: transform 0.3s;
+    }
+    .review-card:hover { transform: translateY(-3px); }
+    .review-stars { color: var(--yellow); font-size: 1rem; letter-spacing: 2px; margin-bottom: 12px; }
+    .review-text { font-size: 0.9rem; color: var(--white-80); line-height: 1.65; margin-bottom: 18px; font-style: italic; }
+    .review-author { display: flex; align-items: center; gap: 10px; }
+    .review-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1a0550;
+    }
+    .review-author-info strong { display: block; font-size: 0.88rem; font-weight: 700; }
+    .review-author-info small { color: var(--white-50); font-size: 0.78rem; }
+
+    /* FAQ */
+    .faq-list {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--yellow); }
+    .faq-q .faq-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(232,255,0,0.12);
+      border: 1px solid rgba(232,255,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--yellow);
+      font-size: 1rem;
+      transition: transform 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      font-size: 0.9rem;
+      color: var(--white-80);
+      line-height: 1.7;
+      padding: 0 24px;
+    }
+    .faq-a.open { max-height: 300px; padding: 0 24px 20px; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 48px 24px 100px;
+      border-top: 1px solid var(--card-border);
+      color: var(--white-50);
+      font-size: 0.82rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    footer a { color: var(--yellow); text-decoration: none; }
+
+    /* SECTION DIVIDER */
+    .divider {
+      position: relative;
+      z-index: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+      margin: 0 40px;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(232,255,0,0.2); }
+      50% { box-shadow: 0 0 40px rgba(232,255,0,0.5); }
+    }
+    .hero-left { animation: fadeUp 0.7s ease both; }
+    .hero-right { animation: fadeUp 0.7s 0.15s ease both; }
+    .ref-code-display { animation: pulse-glow 3s ease-in-out infinite; border-radius: 12px; padding: 8px 16px; }
+
+    /* LINK SHARE ROW */
+    .link-share-row {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .link-share-row span {
+      font-size: 0.82rem;
+      color: var(--white-80);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+    .link-share-row small { color: var(--white-50); font-size: 0.72rem; flex-shrink: 0; }
+
+    .text-center { text-align: center; }
+    .mt-2 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; }
+
+    /* TRUST STRIP */
+    .trust-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 40px;
+      padding: 20px 0;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .trust-item { display: flex; align-items: center; gap: 8px; color: var(--white-80); font-size: 0.85rem; }
+    .trust-item span { color: var(--yellow); font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+
+<!-- BLOBS -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🎮 Pawns<span>.app</span></div>
+  <a href="https://pawns.app/?r=10688521" target="_blank" class="nav-cta">🚀 Join Now – Get $3</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Limited Time – $3 Welcome Bonus</div>
+    <h1>Earn More<br>With <em>Referrals</em></h1>
+    <p class="hero-desc">Both you and your referral get <strong>$3</strong>, and you'll keep earning <strong>10%</strong> of their payouts forever. Start earning passive income today — no experience needed.</p>
+
+    <div class="cta-stack">
+      <a href="https://pawns.app/?r=10688521" target="_blank" class="btn-primary">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Join with My Referral Link
+      </a>
+
+      <div class="ref-box">
+        <div class="ref-box-left">
+          <span>🎁</span>
+          <div class="ref-box-text">
+            <small>Use Referral Code</small>
+            <strong>Code: <em>10688521</em></strong>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this, '10688521')">Copy Code</button>
+      </div>
+
+      <div class="link-share-row">
+        <small>🔗</small>
+        <span>pawns.app/?r=10688521</span>
+        <button class="copy-btn" style="padding:8px 14px;font-size:0.78rem;" onclick="copyCode(this, 'https://pawns.app/?r=10688521')">Copy Link</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="ref-hero-card">
+      <div class="bonus-badge">✅ Verified Referral Code</div>
+      <p style="font-size:0.9rem;color:var(--white-50);margin-bottom:4px;">Your $3 bonus code</p>
+      <div class="ref-code-display">10688521</div>
+      <p>Sign up at Pawns.app and enter this code to unlock your <strong style="color:var(--yellow);">$3 free welcome bonus</strong> instantly.</p>
+      <a href="https://pawns.app/?r=10688521" target="_blank" class="btn-primary" style="margin-top:4px;">
+        Claim My $3 Bonus →
+      </a>
+      <small>✨ No credit card required &nbsp;·&nbsp; Free to join</small>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 40px;">
+  <div class="trust-strip">
+    <div class="trust-item"><span>👥</span> Thousands of active earners</div>
+    <div class="trust-item"><span>💰</span> $3 bonus for every referral</div>
+    <div class="trust-item"><span>♾️</span> Lifetime 10% commissions</div>
+    <div class="trust-item"><span>🔒</span> Trusted & verified platform</div>
+  </div>
+</div>
+
+<div class="divider" style="margin-top:0;"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="text-center">
+    <div class="section-label">Simple & Transparent</div>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub centered">Three easy steps to start earning real money through referrals — no tricks, no hidden fees.</p>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-highlight">💵 You Earn $3</div>
+      <h3>Share & Get Paid</h3>
+      <p>Share your unique referral link or code on social media, chat, or anywhere else. Earn <strong>$3 per referral</strong> — $1 each time they cash out, up to three times.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-highlight">🎁 They Get $3</div>
+      <h3>Your Referral Benefits Too</h3>
+      <p>They get <strong>$1 instantly</strong> for signing up through your link, plus <strong>$1 on each</strong> of their first two payouts — for a total of $3.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-highlight">♾️ 10% Forever</div>
+      <h3>Forever 10% Commission</h3>
+      <p>Enjoy <strong>10% of their earnings</strong> whenever they cash out — for life. The more your referrals earn, the more you do too. Totally passive.</p>
+    </div>
+  </div>
+
+  <!-- BREAKDOWN TABLE -->
+  <div style="margin-top:40px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;overflow:hidden;">
+    <div style="background:rgba(232,255,0,0.08);border-bottom:1px solid var(--card-border);padding:18px 24px;">
+      <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;">📊 Referral Payout Breakdown</h3>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.04);">
+            <th style="text-align:left;padding:14px 24px;color:var(--white-50);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;">Event</th>
+            <th style="text-align:center;padding:14px 24px;color:var(--white-50);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;">Your Referral Gets</th>
+            <th style="text-align:center;padding:14px 24px;color:var(--white-50);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;">You Get</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid var(--card-border);">
+            <td style="padding:14px 24px;font-weight:500;">Signup via your link/code</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1 instantly</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--white-50);">—</td>
+          </tr>
+          <tr style="border-top:1px solid var(--card-border);background:rgba(255,255,255,0.02);">
+            <td style="padding:14px 24px;font-weight:500;">Their 1st payout</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1</td>
+          </tr>
+          <tr style="border-top:1px solid var(--card-border);">
+            <td style="padding:14px 24px;font-weight:500;">Their 2nd payout</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1</td>
+          </tr>
+          <tr style="border-top:1px solid var(--card-border);background:rgba(255,255,255,0.02);">
+            <td style="padding:14px 24px;font-weight:500;">Their 3rd payout</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--white-50);">—</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--yellow);font-weight:700;">$1</td>
+          </tr>
+          <tr style="border-top:1px solid var(--card-border);">
+            <td style="padding:14px 24px;font-weight:500;">Every future payout (forever)</td>
+            <td style="padding:14px 24px;text-align:center;color:var(--white-50);">—</td>
+            <td style="padding:14px 24px;text-align:center;color:#00e57c;font-weight:700;">10% commission</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BONUS SECTION -->
+<section class="section">
+  <div class="bonus-card">
+    <div class="section-label" style="display:inline-block;">Use Code at Signup</div>
+    <h2 class="section-title">Get a $3 Welcome Bonus</h2>
+    <div class="bonus-amount">FREE $3</div>
+    <p>Use referral code <strong style="color:var(--yellow);">10688521</strong> when you sign up today. Join thousands who are already earning with Pawns.app daily. No investment required!</p>
+    
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:420px;margin:0 auto;">
+      <a href="https://pawns.app/?r=10688521" target="_blank" class="btn-primary">
+        🎁 Claim My $3 Bonus Now
+      </a>
+      <div class="ref-box" style="text-align:left;">
+        <div class="ref-box-left">
+          <span>🔑</span>
+          <div class="ref-box-text">
+            <small>Referral Code</small>
+            <strong><em>10688521</em></strong>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this, '10688521')">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PASSIVE INCOME -->
+<section class="section">
+  <div class="text-center">
+    <div class="section-label">Earn While You Sleep</div>
+    <h2 class="section-title">Lifetime Passive Income</h2>
+    <p class="section-sub centered">As long as your referrals are active and withdrawing their earnings, you get 10% of their revenue — forever.</p>
+  </div>
+
+  <div class="passive-grid">
+    <div class="passive-card">
+      <div class="icon">💎</div>
+      <div class="stat">10%</div>
+      <h3>Lifetime Commission Rate</h3>
+      <p>Every time your referred user makes a withdrawal, you automatically receive 10% of their payout. No expiry. No limits. Ever.</p>
+    </div>
+    <div class="passive-card">
+      <div class="icon">🚀</div>
+      <div class="stat">$3</div>
+      <h3>Per Successful Referral</h3>
+      <p>Earn $1 when they complete their 1st, 2nd, and 3rd payouts. That's $3 per person you invite, on top of the ongoing 10% forever.</p>
+    </div>
+    <div class="passive-card">
+      <div class="icon">🌐</div>
+      <div class="stat">∞</div>
+      <h3>No Referral Limit</h3>
+      <p>Refer as many people as you want. Share via social media, QR codes, WhatsApp, or your unique link — the sky's the limit.</p>
+    </div>
+    <div class="passive-card">
+      <div class="icon">⚡</div>
+      <div class="stat">$1</div>
+      <h3>Instant Signup Bonus</h3>
+      <p>Your friend gets $1 the moment they join through your link. No waiting period — it's credited to their account on the spot.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDEO SECTION -->
+<section class="section">
+  <div class="text-center">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">Watch How It Works</h2>
+    <p class="section-sub centered">A quick walkthrough of how to get started and maximize your earnings with Pawns.app's referral program.</p>
+  </div>
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/GiIwR25NLgY" allowfullscreen title="Pawns.app Tutorial"></iframe>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <a href="https://pawns.app/?r=10688521" target="_blank" class="btn-primary" style="display:inline-flex;">
+      🎯 Start Earning Now
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REVIEWS -->
+<section class="section">
+  <div class="text-center">
+    <div class="section-label">Real Users, Real Earnings</div>
+    <h2 class="section-title">What People Are Saying</h2>
+    <p class="section-sub centered">Thousands of users are already earning with Pawns.app's referral program. Here's what they have to say.</p>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I signed up using a referral code and got my $3 bonus right away. Within two weeks I had referred 12 friends and now I earn passive income every time they withdraw. Best decision ever!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#e8ff00,#c8e000);">MR</div>
+        <div class="review-author-info">
+          <strong>Marcus R.</strong>
+          <small>Referred 12 friends · Earning 10% monthly</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The referral code 10688521 worked perfectly. Got my $3 instantly. Now I share my own link everywhere and make commissions 24/7. It's genuinely passive income — I earned while I was sleeping!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">SK</div>
+        <div class="review-author-info">
+          <strong>Sneha K.</strong>
+          <small>Using referrals since 3 months</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Skeptical at first, but the referral system is totally legitimate. My referrals are active and I get 10% every time they cash out. Already made $47 in commissions this month alone!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#00e57c,#00a855);">AT</div>
+        <div class="review-author-info">
+          <strong>Alex T.</strong>
+          <small>$47 in commissions this month</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I shared my referral code in a Facebook group and got 30+ signups in one week. The 10% lifetime commission adds up FAST. This is the best referral program I've ever used."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#f97316,#ea580c);">PL</div>
+        <div class="review-author-info">
+          <strong>Priya L.</strong>
+          <small>30+ referrals · Top earner</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Love how easy it is to copy my referral link and share it. The dashboard shows exactly how much I've earned from each referral. Totally transparent and paying out reliably every time."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2);">JM</div>
+        <div class="review-author-info">
+          <strong>James M.</strong>
+          <small>Consistent payouts every month</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"My friend used a referral code and told me about it. Now we both earn — them from the app, me from their commissions. The $3 signup bonus convinced me to join and I haven't looked back!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#ec4899,#db2777);">RN</div>
+        <div class="review-author-info">
+          <strong>Rita N.</strong>
+          <small>Joined via friend's referral · Now referring too</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="text-center">
+    <div class="section-label">Got Questions?</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-sub centered">Everything you need to know about the Pawns.app referral system.</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How does the Pawns.app referral system work?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">You share your referral link or code with anyone interested in earning. When they sign up using your link or code, both of you get a $3 bonus (distributed across their first few payouts). You also earn 10% of their earnings every time they make a withdrawal — permanently, for life.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What is referral code 10688521 and how do I use it?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">10688521 is a verified Pawns.app referral code. To use it, go to pawns.app, create a new account, and enter this code in the referral code field during signup. You'll immediately qualify for the $3 welcome bonus that's credited across your first payouts.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        When do I receive my referral bonus?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Your new referral receives $1 upon joining, $1 on their first payout, and $1 on their second payout. You receive your $3 referral bonus as follows: $1 when they make their 1st payout, $1 on their 2nd payout, and $1 on their 3rd payout. Additionally, 10% commission is credited each time they withdraw.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Is the 10% lifetime commission really permanent?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Yes! As long as your referral remains active and continues to make payouts on Pawns.app, you will receive 10% of their withdrawal amount indefinitely. There is no expiry date, no cap, and no conditions that cut off your commission.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How many people can I refer?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">There is no limit to how many people you can refer! You can share your referral link and code with as many friends, family members, coworkers, and social media followers as you want. The more active referrals you have, the more passive income you generate.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Can I use multiple referral codes? What if I already signed up?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Referral codes can only be used at the time of account creation — you cannot apply one after your account is already active. Each Pawns.app account can only be linked to one referral code. If you haven't signed up yet, make sure to enter code 10688521 to claim your $3 bonus.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Where can I find my own referral link and code after signing up?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Once you're registered, navigate to the Community tab inside the Pawns.app dashboard. There you'll find your unique referral link, referral code, and options to generate QR codes or social media posts for easy sharing. You can also view your referral statistics and earnings history there.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Can I update or customize my referral link?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Yes! You can customize your referral link inside the Pawns.app dashboard. Tap the Referral Statistics icon on the left sidebar and scroll down to the Referral Links section, where you can edit the custom part of your link to make it more memorable or brandable.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What happens if my referral stops using Pawns.app?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">If a referral becomes inactive or stops making payouts, you simply won't receive any commission from them until they become active again. There's no penalty to you. You'll continue earning from all other active referrals as normal. This is why referring more people ensures more consistent passive income.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Is Pawns.app safe and legitimate? Can I trust it with my referrals?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">Pawns.app is a legitimate and established platform used by thousands of users globally. The referral program is fully transparent, with real-time tracking of your earnings and referrals in the dashboard. Payouts are processed reliably. The referral bonuses and commissions are paid out as described with no hidden conditions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" style="padding-top:0;">
+  <div class="bonus-card" style="padding:56px 32px;">
+    <div class="section-label" style="display:inline-block;">Don't Miss Out</div>
+    <h2 class="section-title" style="margin-top:8px;">Ready to Start Earning?</h2>
+    <p style="color:var(--white-80);max-width:480px;margin:0 auto 32px;line-height:1.7;">Use referral code <strong style="color:var(--yellow);">10688521</strong> when you sign up. Get your $3 welcome bonus and start building passive income today.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;max-width:400px;margin:0 auto;">
+      <a href="https://pawns.app/?r=10688521" target="_blank" class="btn-primary" style="width:100%;justify-content:center;">
+        🚀 Sign Up & Claim $3 Bonus
+      </a>
+      <div class="ref-box" style="width:100%;">
+        <div class="ref-box-left">
+          <span>🔑</span>
+          <div class="ref-box-text">
+            <small>Referral Code</small>
+            <strong><em>10688521</em></strong>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this, '10688521')">Copy Code</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>This is an independent referral page. Earnings depend on user activity. By joining through this link, you agree to Pawns.app's <a href="https://pawns.app/terms" target="_blank">Terms of Service</a>.</p>
+  <p style="margin-top:8px;">Referral Code: <strong style="color:var(--yellow);">10688521</strong> &nbsp;·&nbsp; <a href="https://pawns.app/?r=10688521" target="_blank">pawns.app/?r=10688521</a></p>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta">
+  <div class="ref-code-row">
+    <div class="code-pill">
+      <div>
+        <span>Referral Code</span>
+        <strong>10688521</strong>
+      </div>
+    </div>
+    <button class="copy-btn" onclick="copyCode(this, '10688521')" style="padding:12px 16px;border-radius:10px;">Copy</button>
+  </div>
+  <a href="https://pawns.app/?r=10688521" target="_blank" class="sticky-btn">
+    🎁 Join & Get $3 Free Bonus
+  </a>
+</div>
+
+<script>
+  function copyCode(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback
+      const el = document.createElement('textarea');
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      const original = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-a').classList.remove('open');
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+
+  // Intersection Observer for subtle fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.step-card, .review-card, .passive-card, .faq-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
